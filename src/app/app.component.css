@@ -1,0 +1,32 @@
+#fractal-canvas {
+  margin: 0px;
+  display: block;
+}
+
+#control-panel {
+  width: 240px;
+  height: 380px;
+  top: 40px;
+  left: 40px;
+  position: fixed;
+  z-index: 10;
+  background-color: white;
+  box-shadow: 1px 1px 20px 7px rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  padding: 0 10px;
+  text-align: center;
+}
+
+
+md-form-field {
+  margin: 0;
+}
+
+md-select {
+  margin-top: 0;
+
+}
+
+button {
+  margin: 20px 5px 10px 5px;
+}
