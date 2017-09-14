@@ -5,9 +5,8 @@
 
 #control-panel {
   width: 240px;
-  height: 380px;
-  top: 40px;
-  left: 40px;
+  top: 20px;
+  left: 20px;
   position: fixed;
   z-index: 10;
   background-color: white;
@@ -15,8 +14,48 @@
   border-radius: 3px;
   padding: 0 10px;
   text-align: center;
+  overflow: hidden;
 }
 
+p {
+  color: grey;
+}
+
+#close-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  height: 30px;
+  width: 30px;
+  z-index: 11;
+  background-color: #9b9b9b;
+  border-radius: 2px 0px 3px 0px;
+  padding: 5px 0 0 5px;
+  cursor: pointer;
+  color: white;
+}
+
+#close-button:hover {
+  background-color: #7a7a7a;
+}
+
+#open-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  height: 30px;
+  width: 30px;
+  z-index: 11;
+  background-color: #9b9b9b;
+  border-radius: 2px 0px 3px 0px;
+  padding: 5px 0 0 5px;
+  cursor: pointer;
+  color: white;
+}
+
+#open-button:hover {
+  background-color: #7a7a7a;
+}
 
 md-form-field {
   margin: 0;

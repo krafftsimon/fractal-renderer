@@ -1,6 +1,8 @@
 
 <canvas #fractalCanvas id="fractal-canvas" [width]="width" [height]="height"></canvas>
-<div id="control-panel">
+<div id="close-button" *ngIf="controlPanelActive" (click)="toggleControlPanel()"><md-icon>remove</md-icon></div>
+<div id="open-button" *ngIf="!controlPanelActive" (click)="toggleControlPanel()"><md-icon>add</md-icon></div>
+<div id="control-panel" *ngIf="controlPanelActive" [@controlPanelAnimation]="''">
   <h2> MandelBrot Set </h2>
   <md-form-field>
     <input mdInput #iterations placeholder="Iterations (def. 50)">
@@ -9,7 +11,7 @@
     <input mdInput #threshold placeholder="Threshold (def. 4)">
   </md-form-field>
   <md-form-field>
-    <input mdInput #lightCoefficient placeholder="Light Coefficient (def. 7)">
+    <input mdInput #lightCoefficient placeholder="Light Coefficient (def. 1)">
   </md-form-field>
   <md-select placeholder="Color Scheme" [(ngModel)]="selectedColor"  name="color">
     <md-option *ngFor="let color of colors; let i = index" [value]="colors[i]">
@@ -19,4 +21,5 @@
   <br>
   <button md-raised-button color="primary" (click)="onDraw(iterations.value, threshold.value, lightCoefficient.value)">Draw</button>
   <button md-raised-button color="primary" (click)="iterations.value=''; threshold.value=''; lightCoefficient.value=''; onReset()">Reset</button>
+  <p> Click to zoom in. Shift-click to zoom out. </p>
 </div>

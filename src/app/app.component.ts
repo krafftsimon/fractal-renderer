@@ -1,19 +1,22 @@
 import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { controlPanelAnimation } from './animations/control-panel.animation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [controlPanelAnimation]
 })
 export class AppComponent {
+  controlPanelActive: boolean = true;
   innerHeight: any;   //height of the screen (excluding taskbar, url search bar, etc..)
   innerWidth: any;    //width of the screen
   height: number;   // Height of the canvas. Keep aspect ratio (height is 4/5 of width)
   width: number;   // Width of the canvas.
   maxIterations: number = 50;
   threshold: number = 4;
-  lightCoefficient: number = 7;
-  colors: [string] = ["blue", "grey", "yellow"];
+  lightCoefficient: number = 1;
+  colors: [string] = ["blue-green", "grey", "yellow-red", "yellow", "red", "green", "pink"];
   selectedColor: string = "grey";
   destMinX: number = -3;
   destMaxX: number = 2;
@@ -34,29 +37,37 @@ export class AppComponent {
   }
 
   @HostListener('mousedown', ['$event']) mouseHandling(event) {
-    console.log(event.target.id);
     if (event.target.id === "fractal-canvas") {
-      let srcCenterX: number = event.pageX;
-      let srcCenterY: number = event.pageY;
-      let srcTopLeft: number[] = [srcCenterX - 200, srcCenterY + 100];
-      let srcTopRight: number[] = [srcCenterX + 200, srcCenterY + 100];
-      let srcBottomLeft: number[] = [srcCenterX - 200, srcCenterY - 100];
-      let srcBottomRight: number[] = [srcCenterX + 200, srcCenterY - 100];
-      let destTopLeft: number[] = this.coordinateTransformation(srcTopLeft[0], srcTopLeft[1], 0, this.width, 0, this.height);
-      let destTopRight: number[] = this.coordinateTransformation(srcTopRight[0], srcTopRight[1], 0, this.width, 0, this.height);
-      let destBottomLeft: number[] = this.coordinateTransformation(srcBottomLeft[0], srcBottomLeft[1], 0, this.width, 0, this.height);
-      this.destMinX = destTopLeft[0];
-      this.destMaxX = destTopRight[0];
-      this.destMinY = destTopLeft[1];
-      this.destMaxY = destBottomLeft[1];
-      this.drawFractal();
+      if (event.shiftKey === false) {
+        let srcCenterX: number = event.pageX;
+        let srcCenterY: number = event.pageY;
+        let srcTopLeft: number[] = [srcCenterX - 200, srcCenterY + 100];
+        let srcTopRight: number[] = [srcCenterX + 200, srcCenterY + 100];
+        let srcBottomLeft: number[] = [srcCenterX - 200, srcCenterY - 100];
+        let srcBottomRight: number[] = [srcCenterX + 200, srcCenterY - 100];
+        let destTopLeft: number[] = this.coordinateTransformation(srcTopLeft[0], srcTopLeft[1], 0, this.width, 0, this.height);
+        let destTopRight: number[] = this.coordinateTransformation(srcTopRight[0], srcTopRight[1], 0, this.width, 0, this.height);
+        let destBottomLeft: number[] = this.coordinateTransformation(srcBottomLeft[0], srcBottomLeft[1], 0, this.width, 0, this.height);
+        this.destMinX = destTopLeft[0];
+        this.destMaxX = destTopRight[0];
+        this.destMinY = destTopLeft[1];
+        this.destMaxY = destBottomLeft[1];
+        this.drawFractal();
+      } else if (event.shiftKey === true){
+          let destWidth = Math.abs(this.destMaxX - this.destMinX)
+          this.destMinX -= destWidth * 0.6
+          this.destMaxX += destWidth * 0.6
+          this.destMinY -= destWidth * 0.3
+          this.destMaxY += destWidth * 0.3
+          this.drawFractal();
+      }
     }
   }
 
   onReset() {
     this.maxIterations = 50;
     this.threshold = 4;
-    this.lightCoefficient = 7;
+    this.lightCoefficient = 1;
     this.destMinX = -3;
     this.destMaxX = 2;
     this.destMinY = -1.25;
@@ -149,43 +160,71 @@ export class AppComponent {
   getColor(iterations: number): number[] {
     let colorArray: number[] = [0, 0, 0];
     switch(this.selectedColor) {
-      case "blue": {
+      case "blue-green": {
         if (iterations < 0.33*this.maxIterations) {
           colorArray[0] = 0;
           colorArray[1] = 0;
-          colorArray[2] = 15 + 2*this.lightCoefficient * iterations;
+          colorArray[2] = ((255 / (0.33*this.maxIterations)) * iterations) * this.lightCoefficient;
           return colorArray
         } else if (iterations < 0.66*this.maxIterations) {
           colorArray[0] = 0;
-          colorArray[1] = 15 + 2*this.lightCoefficient * (iterations - 17);
+          colorArray[1] = ((255 / (0.66*this.maxIterations - 0.33*this.maxIterations)) * iterations - (255 / (0.66*this.maxIterations - 0.33*this.maxIterations)) * (0.33*this.maxIterations)) * this.lightCoefficient;
           colorArray[2] = 255;
           return colorArray
         } else {
           colorArray[0] = 0
           colorArray[1] = 255
-          colorArray[2] = 255 - (15 + this.lightCoefficient * (iterations - 33));
+          colorArray[2] = 255 - (((255 / (this.maxIterations - 0.66*this.maxIterations)) * iterations - (255 / (this.maxIterations - 0.66*this.maxIterations)) * (0.66*this.maxIterations)) * this.lightCoefficient);
           return colorArray
         }
       }
-      case "yellow": {
+      case "yellow-red": {
         if (iterations < 0.5*this.maxIterations) {
           colorArray[0] = 255;
-          colorArray[1] = 255 - (15 + 2*this.lightCoefficient * iterations);
+          colorArray[1] = 200 - ((255 / (0.5*this.maxIterations)) * iterations) * this.lightCoefficient;
           colorArray[2] = 0;
           return colorArray
         } else {
           colorArray[0] = 255;
           colorArray[1] = 0;
-          colorArray[2] = 15 + 2*this.lightCoefficient * (iterations - 17);
+          colorArray[2] = ((255 / (this.maxIterations - 0.5*this.maxIterations)) * iterations - (255 / (this.maxIterations - 0.5*this.maxIterations)) * (0.5*this.maxIterations)) * this.lightCoefficient;
           return colorArray
         }
       }
       case "grey": {
-        colorArray[0] = 15 + this.lightCoefficient * iterations;
+        colorArray[0] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
         colorArray[1] = colorArray[0];
         colorArray[2] = colorArray[0];
         return colorArray;
       }
+      case "yellow": {
+        colorArray[0] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        colorArray[1] = colorArray[0];
+        colorArray[2] = 0;
+        return colorArray;
+      }
+      case "red": {
+        colorArray[0] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        colorArray[1] = 0;
+        colorArray[2] = 0;
+        return colorArray;
+      }
+      case "green": {
+        colorArray[0] = 0;
+        colorArray[1] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        colorArray[2] = 0;
+        return colorArray;
+      }
+      case "pink": {
+        colorArray[0] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        colorArray[1] = 0;
+        colorArray[2] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        return colorArray;
+      }
     }
+  }
+
+  toggleControlPanel(): void {
+    this.controlPanelActive = !this.controlPanelActive;
   }
 }
