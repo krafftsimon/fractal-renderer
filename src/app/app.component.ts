@@ -16,7 +16,7 @@ export class AppComponent {
   maxIterations: number = 50;
   threshold: number = 4;
   lightCoefficient: number = 1;
-  colors: [string] = ["blue-green", "grey", "yellow-red", "yellow", "red", "green", "pink", "blue-white"];
+  colors: string[] = ["blue-green", "grey", "yellow-red", "yellow", "red", "green", "pink", "blue-white"];
   selectedColor: string = "grey";
   destMinX: number = -3;
   destMaxX: number = 2;
@@ -73,6 +73,8 @@ export class AppComponent {
     this.destMaxX = 2;
     this.destMinY = -1.25;
     this.destMaxY = 1.25;
+    this.interiorColor = "black";
+    this.selectedColor = "grey";
     this.drawFractal();
   }
 

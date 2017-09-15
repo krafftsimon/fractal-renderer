@@ -13,8 +13,8 @@
   <md-form-field>
     <input mdInput #lightCoefficient placeholder="Light Coefficient (def. 1)">
   </md-form-field>
-  <md-select placeholder="Color Scheme" [(ngModel)]="selectedColor"  name="color">
-    <md-option *ngFor="let color of colors" [value]="colors[i]">
+  <md-select placeholder="Color" [(ngModel)]="selectedColor"  name="color">
+    <md-option *ngFor="let color of colors" [value]="color">
       {{color}}
     </md-option>
   </md-select>
