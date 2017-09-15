@@ -14,10 +14,18 @@
     <input mdInput #lightCoefficient placeholder="Light Coefficient (def. 1)">
   </md-form-field>
   <md-select placeholder="Color Scheme" [(ngModel)]="selectedColor"  name="color">
-    <md-option *ngFor="let color of colors; let i = index" [value]="colors[i]">
-      {{colors[i]}}
+    <md-option *ngFor="let color of colors" [value]="colors[i]">
+      {{color}}
     </md-option>
   </md-select>
+  <br>
+  <section class="interior-section">
+    <label>Interior:</label>
+    <md-radio-group [(ngModel)]="interiorColor">
+      <md-radio-button value="black">Black</md-radio-button>
+      <md-radio-button value="white">White</md-radio-button>
+    </md-radio-group>
+  </section>
   <br>
   <button md-raised-button color="primary" (click)="onDraw(iterations.value, threshold.value, lightCoefficient.value)">Draw</button>
   <button md-raised-button color="primary" (click)="iterations.value=''; threshold.value=''; lightCoefficient.value=''; onReset()">Reset</button>

@@ -21,6 +21,10 @@ p {
   color: grey;
 }
 
+.interior-section {
+  margin-top: 25px;
+}
+
 #close-button {
   position: fixed;
   top: 20px;
@@ -67,5 +71,5 @@ md-select {
 }
 
 button {
-  margin: 20px 5px 10px 5px;
+  margin: 10px 5px 10px 5px;
 }

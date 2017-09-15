@@ -16,12 +16,13 @@ export class AppComponent {
   maxIterations: number = 50;
   threshold: number = 4;
   lightCoefficient: number = 1;
-  colors: [string] = ["blue-green", "grey", "yellow-red", "yellow", "red", "green", "pink"];
+  colors: [string] = ["blue-green", "grey", "yellow-red", "yellow", "red", "green", "pink", "blue-white"];
   selectedColor: string = "grey";
   destMinX: number = -3;
   destMaxX: number = 2;
   destMinY: number = -1.25;
   destMaxY: number = 1.25;
+  interiorColor: string = "black";
 
   @ViewChild("fractalCanvas") canvas: ElementRef;
 
@@ -89,6 +90,7 @@ export class AppComponent {
   }
 
   drawFractal() {
+
     let context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
     let newImg = context.createImageData(this.width, this.height);
     for (let i = 0; i < newImg.data.length; i += 4) {
@@ -97,10 +99,17 @@ export class AppComponent {
       let result = this.iterate(x, y)
       let colorArray = this.getColor(result[1])
       if (result[0] === true) {
-        newImg.data[i] = 0
-        newImg.data[i + 1] = 0
-        newImg.data[i + 2] = 0
-        newImg.data[i + 3] = 255
+        if (this.interiorColor === "white") {
+          newImg.data[i] = 255
+          newImg.data[i + 1] = 255
+          newImg.data[i + 2] = 255
+          newImg.data[i + 3] = 255
+        } else if (this.interiorColor === "black") {
+          newImg.data[i] = 0
+          newImg.data[i + 1] = 0
+          newImg.data[i + 2] = 0
+          newImg.data[i + 3] = 255
+        }
       } else {
         newImg.data[i] = colorArray[0]
         newImg.data[i + 1] = colorArray[1]
@@ -218,6 +227,12 @@ export class AppComponent {
       case "pink": {
         colorArray[0] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
         colorArray[1] = 0;
+        colorArray[2] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
+        return colorArray;
+      }
+      case "blue-white": {
+        colorArray[0] = 0;
+        colorArray[1] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
         colorArray[2] = ((255 / this.maxIterations) * iterations) * this.lightCoefficient;
         return colorArray;
       }
