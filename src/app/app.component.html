@@ -1,5 +1,6 @@
-
-<canvas #fractalCanvas id="fractal-canvas" [width]="width" [height]="height"></canvas>
+<div class="container">
+  <canvas #fractalCanvas id="fractal-canvas" [width]="width" [height]="height"></canvas>
+</div>
 <div id="close-button" *ngIf="controlPanelActive" (click)="toggleControlPanel()"><md-icon>remove</md-icon></div>
 <div id="open-button" *ngIf="!controlPanelActive" (click)="toggleControlPanel()"><md-icon>add</md-icon></div>
 <div id="control-panel" *ngIf="controlPanelActive" [@controlPanelAnimation]="''">
@@ -18,7 +19,6 @@
       {{color}}
     </md-option>
   </md-select>
-  <br>
   <section class="interior-section">
     <label>Interior:</label>
     <md-radio-group [(ngModel)]="interiorColor">
@@ -26,7 +26,6 @@
       <md-radio-button value="white">White</md-radio-button>
     </md-radio-group>
   </section>
-  <br>
   <button md-raised-button color="primary" (click)="onDraw(iterations.value, threshold.value, lightCoefficient.value)">Draw</button>
   <button md-raised-button color="primary" (click)="iterations.value=''; threshold.value=''; lightCoefficient.value=''; onReset()">Reset</button>
   <p> Click to zoom in. Shift-click to zoom out. </p>

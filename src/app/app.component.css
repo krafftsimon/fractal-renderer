@@ -1,6 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
 #fractal-canvas {
   margin: 0px;
   display: block;
+  outline: 1px solid #1e1e1e;
 }
 
 #control-panel {
@@ -67,9 +74,58 @@ md-form-field {
 
 md-select {
   margin-top: 0;
-
 }
 
 button {
-  margin: 10px 5px 10px 5px;
+  margin: 20px 5px 10px 5px;
+}
+
+@media screen and (max-height: 540px) {
+  #control-panel {
+    top: 0;
+    left: 0;
+    border-radius: 0;
+  }
+
+  #open-button {
+    top: 0;
+    left: 0;
+  }
+
+  #close-button {
+    top: 0;
+    left: 0;
+  }
+
+  h2 {
+    margin: 10px auto 0 auto;
+  }
+
+  md-form-field {
+    font-size: 12px;
+  }
+
+  md-select {
+    font-size: 12px;
+  }
+
+  md-option {
+    font-size: 12px;
+  }
+
+  md-radio-group {
+    font-size: 12px;
+  }
+
+  button {
+    margin: 10px 5px 0 5px;
+  }
+
+  section.interior-section {
+    margin-top: 10px;
+  }
+
+  p {
+    margin-bottom: 5px;
+  }
 }

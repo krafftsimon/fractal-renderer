@@ -7,6 +7,7 @@ import { controlPanelAnimation } from './animations/control-panel.animation';
   styleUrls: ['./app.component.css'],
   animations: [controlPanelAnimation]
 })
+
 export class AppComponent {
   controlPanelActive: boolean = true;
   innerHeight: any;   //height of the screen (excluding taskbar, url search bar, etc..)
@@ -92,12 +93,11 @@ export class AppComponent {
   }
 
   drawFractal() {
-
     let context: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
     let newImg = context.createImageData(this.width, this.height);
     for (let i = 0; i < newImg.data.length; i += 4) {
       let y = Math.floor(i / (this.width * 4));    // Find y coordinate based on current index.
-      let x = (i - ((y)*this.width*4)) / 4;   // Find x coordinate based on current index.
+      let x = (i - ((y) * this.width * 4)) / 4;   // Find x coordinate based on current index.
       let result = this.iterate(x, y)
       let colorArray = this.getColor(result[1])
       if (result[0] === true) {
@@ -145,7 +145,7 @@ export class AppComponent {
       for (let i = 0; i < 4; i++) {   // Perform a few extra iterations to further smooth the coloring
         let previousReZ = ReZ
         ReZ = ReZ**2 - ImZ**2 + newX;
-        ImZ = 2*previousReZ*ImZ + newY;
+        ImZ = 2 * previousReZ * ImZ + newY;
         magZ = ReZ**2 + ImZ**2;
         iterationCount++;
       }
@@ -157,9 +157,7 @@ export class AppComponent {
     }
   }
 
-  coordinateTransformation(srcX: number, srcY: number,
-                           srcMinX: number, srcMaxX: number,
-                           srcMinY: number, srcMaxY: number): number[] {
+  coordinateTransformation(srcX: number, srcY: number, srcMinX: number, srcMaxX: number, srcMinY: number, srcMaxY: number): number[] {
     let temp = srcMinY;
     srcMinY = -srcMaxY;
     srcMaxY = -temp;
@@ -175,17 +173,17 @@ export class AppComponent {
         if (iterations < 0.33*this.maxIterations) {
           colorArray[0] = 0;
           colorArray[1] = 0;
-          colorArray[2] = ((255 / (0.33*this.maxIterations)) * iterations) * this.lightCoefficient;
+          colorArray[2] = ((255 / (0.33 * this.maxIterations)) * iterations) * this.lightCoefficient;
           return colorArray
-        } else if (iterations < 0.66*this.maxIterations) {
+        } else if (iterations < 0.66 * this.maxIterations) {
           colorArray[0] = 0;
-          colorArray[1] = ((255 / (0.66*this.maxIterations - 0.33*this.maxIterations)) * iterations - (255 / (0.66*this.maxIterations - 0.33*this.maxIterations)) * (0.33*this.maxIterations)) * this.lightCoefficient;
+          colorArray[1] = ((255 / (0.66 * this.maxIterations - 0.33 * this.maxIterations)) * iterations - (255 / (0.66 * this.maxIterations - 0.33 * this.maxIterations)) * (0.33 * this.maxIterations)) * this.lightCoefficient;
           colorArray[2] = 255;
           return colorArray
         } else {
           colorArray[0] = 0
           colorArray[1] = 255
-          colorArray[2] = 255 - (((255 / (this.maxIterations - 0.66*this.maxIterations)) * iterations - (255 / (this.maxIterations - 0.66*this.maxIterations)) * (0.66*this.maxIterations)) * this.lightCoefficient);
+          colorArray[2] = 255 - (((255 / (this.maxIterations - 0.66 * this.maxIterations)) * iterations - (255 / (this.maxIterations - 0.66 * this.maxIterations)) * (0.66 * this.maxIterations)) * this.lightCoefficient);
           return colorArray
         }
       }
